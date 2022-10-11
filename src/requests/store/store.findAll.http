@@ -1,0 +1,2 @@
+GET http://localhost:3001/api/stores HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2NTQwNjE5NSwiZXhwIjoxNjY1NDkyNTk1fQ._3O95AMf8_1AEw9hSXjM0SsStzk1zY3QaUUak9rwTW8
