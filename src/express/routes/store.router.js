@@ -25,6 +25,22 @@ router.post("/", auth, async (req, res) => {
   apiUtil.sendResponse(res, await storeService.create(req.body));
 });
 
+router.get("/user/:userId", auth, async (req, res) => {
+  const { userId } = req.params;
+
+  if (!userId) {
+    return res
+      .status(400)
+      .json({ message: "Vous devez spécifier un ID correct." });
+  }
+
+  apiUtil.sendResponse(res, await storeService.getByUserId(userId));
+});
+
+router.post("/", auth, async (req, res) => {
+  apiUtil.sendResponse(res, await storeService.create(req.body));
+});
+
 router.delete("/:id", auth, async (req, res) => {
   const { id } = req.params;
 

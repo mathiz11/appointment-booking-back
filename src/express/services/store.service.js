@@ -6,24 +6,45 @@ const storeService = {
     try {
       const stores = await models.store.findAll();
       return apiUtil.formatResponse({ data: stores });
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      console.error(error);
       return apiUtil.formatResponse({ status: 500, message: error });
     }
   },
   getOne: async (id) => {
     try {
-      const user = await models.store.findByPk(id);
+      const store = await models.store.findByPk(id);
 
-      if (!user) {
+      if (!store) {
         return apiUtil.formatResponse({
           status: 404,
           message: "L'ID fourni ne correspond à aucun établissement",
         });
       }
 
-      return apiUtil.formatResponse({ data: user });
-    } catch (err) {
+      return apiUtil.formatResponse({ data: store });
+    } catch (error) {
+      console.error(error);
+      return apiUtil.formatResponse({ status: 500, message: error });
+    }
+  },
+  getByUserId: async (userId) => {
+    try {
+      const store = await models.store.findOne({
+        where: {
+          userId,
+        },
+      });
+
+      if (!store) {
+        return apiUtil.formatResponse({
+          status: 404,
+          message: "L'utilisateur n'est lié à aucun établissement",
+        });
+      }
+
+      return apiUtil.formatResponse({ data: store });
+    } catch (error) {
       console.error(error);
       return apiUtil.formatResponse({ status: 500, message: error });
     }
@@ -39,7 +60,7 @@ const storeService = {
       });
 
       return apiUtil.formatResponse({ status: 201, data: newStore });
-    } catch (err) {
+    } catch (error) {
       console.error(error);
       return apiUtil.formatResponse({ status: 500, message: error });
     }
@@ -62,7 +83,7 @@ const storeService = {
         status: 204,
         message: "L'établissement a bien été supprimé.",
       });
-    } catch (err) {
+    } catch (error) {
       console.error(error);
       return apiUtil.formatResponse({ status: 500, message: error });
     }
