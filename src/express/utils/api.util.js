@@ -8,9 +8,6 @@ const apiUtil = {
     if (response.data) {
       obj.data = response.data;
     }
-    // if (response.error) {
-    //   obj.error = response.error;
-    // }
 
     return obj;
   },

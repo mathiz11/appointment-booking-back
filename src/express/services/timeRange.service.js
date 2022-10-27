@@ -4,6 +4,23 @@ const apiUtil = require("../utils/api.util");
 const dayjs = require("dayjs");
 
 const timeRangeService = {
+  getOne: async (id) => {
+    try {
+      const timeRange = await models.time_range.findByPk(id);
+
+      if (!timeRange) {
+        return apiUtil.formatResponse({
+          status: 404,
+          message: "L'ID fourni ne correspond à aucun horaire.",
+        });
+      }
+
+      return apiUtil.formatResponse({ data: timeRange });
+    } catch (error) {
+      console.error(error);
+      return apiUtil.formatResponse({ status: 500, message: error });
+    }
+  },
   getAll: async (params) => {
     try {
       const timeRanges = await models.time_range.findAll(
@@ -19,7 +36,6 @@ const timeRangeService = {
       return apiUtil.formatResponse({ status: 500, message: error });
     }
   },
-
   getAllByDate: async (date, params) => {
     const startDate = dayjs(date).startOf("day").toDate();
     const endDate = dayjs(date).endOf("day").toDate();
@@ -40,7 +56,6 @@ const timeRangeService = {
       return apiUtil.formatResponse({ status: 500, message: error });
     }
   },
-
   create: async (timeRange) => {
     const { startDate, endDate, storeId, reservationId } = timeRange;
 
@@ -53,6 +68,23 @@ const timeRangeService = {
       });
 
       return apiUtil.formatResponse({ status: 201, data: newTimeRange });
+    } catch (error) {
+      console.error(error);
+      return apiUtil.formatResponse({ status: 500, message: error });
+    }
+  },
+  remove: async (id) => {
+    try {
+      await models.time_range.destroy({
+        where: {
+          id,
+        },
+      });
+
+      return apiUtil.formatResponse({
+        status: 204,
+        message: "L'horaire a bien été supprimé.",
+      });
     } catch (error) {
       console.error(error);
       return apiUtil.formatResponse({ status: 500, message: error });

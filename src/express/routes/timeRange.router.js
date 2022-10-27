@@ -21,4 +21,22 @@ router.post("/date", auth, async (req, res) => {
   );
 });
 
+router.delete("/:id", auth, async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) {
+    return res
+      .status(400)
+      .json({ message: "Vous devez spécifier un ID correct." });
+  }
+
+  let result = await timeRangeService.getOne(id);
+
+  if (result.data) {
+    result = await timeRangeService.remove(id);
+  }
+
+  apiUtil.sendResponse(res, result);
+});
+
 module.exports = router;
